@@ -32,12 +32,12 @@ merge_ways_nodes <- function(ways, nodes) {
 #' @param node_args A list of parameters for plotting nodes
 #' @param ... Ignored
 #'
-#' @method plot osmar
 #'
-#' @S3method plot osmar
+#' @export
+#' @method plot osmar
 plot.osmar <- function(x,
-                       way_args = list(col = gray(0.7)),
-                       node_args = list(pch = 19, cex = 0.1, col = gray(0.3)), ...) {
+                       way_args = list(col = grDevices::gray(0.7)),
+                       node_args = list(pch = 19, cex = 0.1, col = grDevices::gray(0.3)), ...) {
   n <- dim(x)
 
   if ( n["nodes"] == 0 )
@@ -65,9 +65,9 @@ plot_nodes <- function(x, add = FALSE, ...) {
   coords <- x$nodes[[1]][, c("lon", "lat")]
 
   if ( add )
-    points(coords, ...)
+    graphics::points(coords, ...)
   else
-    plot(coords, ...)
+    graphics::plot(coords, ...)
 }
 
 
@@ -88,13 +88,13 @@ plot_ways <- function(x, add = FALSE, xlab = "lon", ylab = "lat", ...) {
   dat <- split(dat, dat$id)
 
   if ( !add ) {
-    plot(1, type = "n", xlim = rlon, ylim = rlat,
+    graphics::plot(1, type = "n", xlim = rlon, ylim = rlat,
          xlab = xlab, ylab = ylab)
   }
 
   for ( coord in dat ) {
     if ( nrow(coord) >= 2 ) {
-      lines(coord[, c("lon", "lat")], ...)
+      graphics::lines(coord[, c("lon", "lat")], ...)
     }
   }
 }

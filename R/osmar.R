@@ -62,9 +62,9 @@ abbrev <- function(x, nchar) {
 #'
 #' @seealso \code{\link{osmar}}
 #'
-#' @method summary osmar
 #'
-#' @S3method summary osmar
+#' @export
+#' @method summary osmar
 summary.osmar <- function(object, ...) {
   ret <- list(nodes = summary(object$nodes),
               ways = summary(object$ways),
@@ -79,9 +79,8 @@ summary.osmar <- function(object, ...) {
 #' @param x The computed summary object to print
 #' @param max.print Maximum number of shown tags
 #' @param nchar.value Number of shown characters of the value column
-#' @method print summary.osmar
 #' @rdname summary.osmar
-#' @S3method print summary.osmar
+#' @export
 print.summary.osmar <- function(x, max.print = 3, nchar.value = 20, ...) {
   cat(print_header("osmar", x$n), "\n\n")
   print(x$nodes, max.print, nchar.value)
@@ -93,7 +92,7 @@ print.summary.osmar <- function(x, max.print = 3, nchar.value = 20, ...) {
 
 
 
-#' @S3method print osmar
+#' @export
 print.osmar <- function(x, ...) {
   cat(print_header("osmar", dim(x)), "\n")
   invisible(x)
@@ -105,9 +104,9 @@ print.osmar <- function(x, ...) {
 ### Summarize nodes: #################################################
 
 
-#' @method summary nodes
 #' @rdname summary.osmar
-#' @S3method summary nodes
+#' @export
+#' @method summary nodes
 summary.nodes <- function(object, ...) {
   ret <- list(n = NULL, bbox = NULL, content = NULL,
               key = NULL, val = NULL, keyval = NULL)
@@ -148,9 +147,8 @@ summary.nodes <- function(object, ...) {
 
 
 
-#' @method print summary.nodes
 #' @rdname summary.osmar
-#' @S3method print summary.nodes
+#' @export
 print.summary.nodes <- function(x, max.print = 10, nchar.value = 20, ...) {
   cat(print_header("osmar$nodes", x$n), "\n")
   if ( x$n["nodes"] > 0 ) {
@@ -169,7 +167,7 @@ print.summary.nodes <- function(x, max.print = 10, nchar.value = 20, ...) {
 
 
 
-#' @S3method print nodes
+#' @export
 print.nodes <- function(x, ...) {
   n <- c(nodes = nrow(x$attrs),
          tags = nrow(x$tags))
@@ -192,9 +190,9 @@ print.nodes <- function(x, ...) {
 
 
 
-#' @method summary ways
 #' @rdname summary.osmar
-#' @S3method summary ways
+#' @export
+#' @method summary ways
 summary.ways <- function(object, ...) {
   ret <- list(n = NULL, key = NULL, content = NULL,
               val = NULL, keyval = NULL)
@@ -230,9 +228,8 @@ summary.ways <- function(object, ...) {
 
 
 
-#' @method print summary.ways
 #' @rdname summary.osmar
-#' @S3method print summary.ways
+#' @export
 print.summary.ways <- function(x, max.print = 10, nchar.value = 20, ...) {
   cat(print_header("osmar$ways", x$n), "\n")
   if ( x$n["ways"] > 0 ) {
@@ -248,7 +245,7 @@ print.summary.ways <- function(x, max.print = 10, nchar.value = 20, ...) {
 
 
 
-#' @S3method print ways
+#' @export
 print.ways <- function(x, ...) {
   n <- c(ways = nrow(x$attrs),
          tags = nrow(x$tags),
@@ -265,9 +262,9 @@ print.ways <- function(x, ...) {
 ### Summarizing relations: ###########################################
 
 
-#' @method summary relations
 #' @rdname summary.osmar
-#' @S3method summary relations
+#' @export
+#' @method summary relations
 summary.relations <- function(object, ...) {
   ret <- list(n = NULL, key = NULL, content = NULL,
               val = NULL, keyval = NULL)
@@ -304,9 +301,8 @@ summary.relations <- function(object, ...) {
 
 
 
-#' @method print summary.relations
 #' @rdname summary.osmar
-#' @S3method print summary.relations
+#' @export
 print.summary.relations <- function(x, max.print = 10, nchar.value = 20, ...) {
   cat(print_header("osmar$relations", x$n), "\n")
   if ( x$n["relations"] > 0 ) {
@@ -323,7 +319,7 @@ print.summary.relations <- function(x, max.print = 10, nchar.value = 20, ...) {
 
 
 
-#' @S3method print relations
+#' @export
 print.relations <- function(x, ...) {
   n <- c(relations = nrow(x$attrs),
          tags = nrow(x$tags),
@@ -357,9 +353,8 @@ print.relations <- function(x, ...) {
 #'     c(o1, o2)
 #'   }
 #'
-#' @method c osmar
 #'
-#' @S3method c osmar
+#' @export
 c.osmar <- function(...) {
   ## TODO: object[[1]] attributes?
   objects <- list(...)
@@ -403,9 +398,8 @@ c.osmar <- function(...) {
 #'     dim(muc)
 #'   }
 #'
-#' @method dim osmar
 #'
-#' @S3method dim osmar
+#' @export
 dim.osmar <- function(x) {
   sapply(x, function(y) nrow(y[[1]]))
 }

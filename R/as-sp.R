@@ -56,7 +56,7 @@
 as_sp <- function(obj, what = c("points", "lines", "polygons"),
                   crs = osm_crs(), simplify = TRUE) {
 
-  stopifnot(require("sp"))
+  stopifnot(requireNamespace("sp"))
   stopifnot(is_osmar(obj))
   stopifnot(any(has_data(obj)))
 
@@ -97,8 +97,8 @@ as_sp <- function(obj, what = c("points", "lines", "polygons"),
 #'
 #' @export
 osm_crs <- function(crs = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0") {
-  stopifnot(require("sp"))
-  ret <- CRS(crs)
+  stopifnot(requireNamespace("sp"))
+  ret <- sp::CRS(crs)
   ret
 }
 
@@ -120,7 +120,7 @@ as_sp_points <- function(obj, crs = osm_crs()) {
 
   dat <- unique(obj$nodes$attrs)
   coords <- data.frame(lon = dat$lon, lat = dat$lat, row.names = dat$id)
-  ret <- SpatialPointsDataFrame(coords = coords, proj4string = crs,
+  ret <- sp::SpatialPointsDataFrame(coords = coords, proj4string = crs,
                                 data = dat, match.ID = "id")
   ret
 }
@@ -143,7 +143,7 @@ as_sp_lines <- function(obj, crs = osm_crs()){
   way_ids <- unique(obj$ways$refs$id)
   way_lns <- vector("list", length(way_ids))
   for(i in 1:length(way_lns)) {
-    way_lns[[i]]<- Lines(ways_nodes2Line(way_ids[i], obj$ways, obj$nodes),
+    way_lns[[i]]<- sp::Lines(ways_nodes2Line(way_ids[i], obj$ways, obj$nodes),
                          way_ids[i])
   }
 
@@ -154,7 +154,7 @@ as_sp_lines <- function(obj, crs = osm_crs()){
   rel_ids <- unique(obj$relations$refs$id)
   rel_lns <- vector("list", length(rel_ids))
   for(i in 1:length(rel_ids)) {
-    rel_lns[[i]] <- Lines(rels_ways_nodes2Line(rel_ids[i], obj$relations,
+    rel_lns[[i]] <- sp::Lines(rels_ways_nodes2Line(rel_ids[i], obj$relations,
                                                obj$ways, obj$nodes), rel_ids[i])
   }
 
@@ -188,7 +188,7 @@ ways_nodes2Line <- function(wayID, ways, nodes){
   geo <- nodes$attrs[match(nds,nodes$attrs$id), c("lon","lat")]
   if(sum(is.na(geo)==TRUE)>=1)
     geo<- geo[!is.na(geo[,1]),]
-  ret <- Line(geo)
+  ret <- sp::Line(geo)
   ret
 }
 
@@ -196,7 +196,7 @@ ways_nodes2Line <- function(wayID, ways, nodes){
 
 make_SLDF <- function(obj, lns, crs, what){
   lns <- remove_emptyLines(lns)
-  splns <- SpatialLines(lns, proj4string = crs)
+  splns <- sp::SpatialLines(lns, proj4string = crs)
   if ( what == "way") {
     dat <- cbind(obj$ways$attrs, type = as.factor("way"))
   }
@@ -204,7 +204,7 @@ make_SLDF <- function(obj, lns, crs, what){
     dat <- rbind(cbind(obj$ways$attrs,type = as.factor("way")),
                  cbind(obj$relations$attrs,type = as.factor("relation")))
   }
-  ret <- SpatialLinesDataFrame(splns, data = dat, match.ID = "id")
+  ret <- sp::SpatialLinesDataFrame(splns, data = dat, match.ID = "id")
   ret
 }
 
@@ -234,7 +234,7 @@ as_sp_polygons <- function(obj, crs = osm_crs()){
   for(i in 1:length(way_pols)) {
     way_pols[[i]]<- ways_nodes2Polygon(way_ids[i], obj$ways, obj$nodes)
     if ( class(way_pols[[i]]) == "Polygon" )
-      way_pols[[i]]<- Polygons(list(way_pols[[i]]), way_ids[i])
+      way_pols[[i]]<- sp::Polygons(list(way_pols[[i]]), way_ids[i])
   }
   polys_position<- which(!sapply(way_pols, is.list))
   way_pols <- way_pols[polys_position]
@@ -245,9 +245,9 @@ as_sp_polygons <- function(obj, crs = osm_crs()){
   }
   ## relations don't have many polygonlike objects
 
-  spols <- SpatialPolygons(way_pols, proj4string=crs)
+  spols <- sp::SpatialPolygons(way_pols, proj4string=crs)
   dat <- obj$ways$attrs[polys_position,]
-  ret <- SpatialPolygonsDataFrame(spols, data=dat, match.ID="id")
+  ret <- sp::SpatialPolygonsDataFrame(spols, data=dat, match.ID="id")
   ret
 }
 
@@ -265,7 +265,7 @@ ways_nodes2Polygon <- function(wayID, ways, nodes){
   if(sum(is_poly(geo)) != 2)
     return(list(NULL))
 
-  ret <- Polygon(geo)
+  ret <- sp::Polygon(geo)
   ret
 }
 

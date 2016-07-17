@@ -85,9 +85,8 @@ subset_relations <- function(x, ids) {
 #'
 #'   subset(muc, ids = find_up(muc, node(id)))
 #'
-#' @method subset osmar
 #'
-#' @S3method subset osmar
+#' @export
 subset.osmar <- function(x, node_ids = NULL, way_ids = NULL, relation_ids = NULL,
                          ids = list(node_ids = node_ids, way_ids = way_ids,
                                     relation_ids = relation_ids), ...) {

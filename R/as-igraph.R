@@ -22,7 +22,7 @@
 #' @export
 as_igraph <- function(obj) {
   stopifnot(is_osmar(obj))
-  stopifnot(require("igraph"))
+  stopifnot(requireNamespace("igraph"))
 
   dat <- merge_ways_nodes(obj$ways[[3]], obj$nodes[[1]])
   dat <- split(dat, dat$id)
@@ -34,7 +34,7 @@ as_igraph <- function(obj) {
                     from <- 1:(n-1)
                     to <- 2:n
 
-                    weights <- distHaversine(x[from, c("lon", "lat")],
+                    weights <- geosphere::distHaversine(x[from, c("lon", "lat")],
                                              x[to, c("lon", "lat")])
 
                     cbind(from_node_id = x[from, "ref"],
@@ -49,9 +49,9 @@ as_igraph <- function(obj) {
   edges <- cbind(as.character(edges[, "from_node_id"]),
                  as.character(edges[, "to_node_id"]))
 
-  graph <- graph.edgelist(edges)
-  E(graph)$weight <- weights
-  E(graph)$name <- names
+  graph <- igraph::graph.edgelist(edges)
+  igraph::E(graph)$weight <- weights
+  igraph::E(graph)$name <- names
 
   graph
 }

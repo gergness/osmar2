@@ -39,3 +39,4 @@ Collate:
     'source-api.R'
     'source-file.R'
     'source-osmosis.R'
+RoxygenNote: 5.0.1

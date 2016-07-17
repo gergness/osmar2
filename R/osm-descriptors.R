@@ -41,18 +41,16 @@ elem_by_id <- function(id, subclass) {
 #' @examples
 #'   ## Description by ID (*.default):
 #'   node(1)
-#' @method node default
 #' @rdname osm_descriptors
-#' @S3method node default
+#' @export
 node.default <- function(object) {
   elem_by_id(object, "node")
 }
 
 #' @examples
 #'   way(1)
-#' @method way default
 #' @rdname osm_descriptors
-#' @S3method way default
+#' @export
 way.default <- function(object) {
   elem_by_id(object, "way")
 }
@@ -60,9 +58,8 @@ way.default <- function(object) {
 
 #' @examples
 #'   relation(1)
-#' @method relation default
 #' @rdname osm_descriptors
-#' @S3method relation default
+#' @export
 relation.default <- function(object) {
    elem_by_id(object, "relation")
 }
@@ -98,9 +95,8 @@ refs <- function(condition) {
 #' @examples
 #'   ## Description by condition (*.condition):
 #'   node(tags(v == "Marienplatz"))
-#' @method relation condition
 #' @rdname osm_descriptors
-#' @S3method node condition
+#' @export
 node.condition <- function(object) {
   structure(object, element = "node")
 }
@@ -108,16 +104,14 @@ node.condition <- function(object) {
 #' @examples
 #'   ## Description by condition (*.condition):
 #'   way(attrs(id == 17458))
-#' @method relation condition
 #' @rdname osm_descriptors
-#' @S3method way condition
+#' @export
 way.condition <- function(object) {
   structure(object, element = "way")
 }
 
-#' @method relation condition
 #' @rdname osm_descriptors
-#' @S3method relation condition
+#' @export
 relation.condition <- function(object) {
   structure(object, element = "relation")
 }
