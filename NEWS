@@ -1,0 +1,97 @@
+Changes in osmar version 1.1-8
+
+  o Fixed a bug in the "navigator" demo; thanks to Rainer Bacher.
+  o Added option 'encoding' in osmsource_api()
+
+Changes in osmar version 1.1-7
+
+  o A bug based on "gtools"" fixed, package "gtools" now not needed
+    anymore; thanks to Nikolaus Schantz and Dominik Kalisch for 
+    reporting the problems.
+
+
+Changes in osmar version 1.1-6
+
+  o Changed everything from "igraph0" to "igraph" because of cancellation 
+    of "igraph0"-package.
+
+
+Changes in osmar version 1.1-5
+
+  o A special thanks goes to two anonymous reviewers and the editor
+    Hadley Wickham of the R Journal.
+
+  o Added abbreviation of the Value column in the elements' summary
+    methods.
+
+  o Added dim method for osmar objects; returns the number of nodes,
+    ways, and relations.
+
+  o Fixed error when trying to plot an osmar object with nodes but
+    without ways.
+
+  o Added citation (currently to a preprint of the accepted article).
+
+  o Replaced 'subset's with '['s to avoid R CMD check notes "no
+    visible binding for global variable ...".
+
+
+Changes in osmar version 1.1-4
+
+  o Changed suggestion of the "igraph" to "igraph0"
+
+  o Changed everything from igraph to "igraph0"
+
+
+Changes in osmar version 1.1-3
+
+  o This is the FOSSGIS 2012 release!
+
+  o Fixed find_*.* bug; occured when calling one of these function
+    inside another function.
+
+  o Fixed bug in as_sp_lines and as_sp_polygons.
+
+
+Changes in osmar version 1.1-2
+
+  o A special thanks goes to Roger Bivand who is involved in most of
+    the fixes and improvements in this version!
+
+  o Added inst/extdata/kaufstr.xml and an example in ?as_osmar.
+
+  o Added muc.RData and removed \dontrun from most of the examples.
+
+  o Introduced as_osmar_bbox generic and as_osmar_bbox.Spatial.
+
+  o Renamed bbox function to corner_bbox function to avoid NAMESPACE
+    clashes with the sp package.
+
+  o c.osmar/unique bug resolved (unique removes closed ways).
+
+  o summary.nodes/no keyval bug resolved (problem if osmar$nodes does
+    not have any tags)
+
+
+Changes in osmar version 1.1-1
+
+  o Workaround for a serious xmlClone-bug; thanks to Roger Bivand for
+    detecting the problem and Duncan Temple Lang for trying to
+    understand the problem.
+
+  o More documentation on element identifiers, osm sources, etc.
+
+
+Changes in osmar version 1.1
+
+  o Refactored package; standalone osmar object, different OSM
+    sources, converter methods to sp and igraph.
+
+  o Roxygenized.
+
+  o Navigation device as demo.
+
+
+Changes in osmar version 1.0
+
+  o Initial version on CRAN.

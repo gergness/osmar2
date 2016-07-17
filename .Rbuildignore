@@ -1,0 +1,5 @@
+R/source-xapi.R
+sandbox
+inst/doc/paper
+^.*\.Rproj$
+^\.Rproj\.user$

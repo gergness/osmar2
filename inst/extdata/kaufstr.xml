@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="OpenStreetMap server">
+  <node id="18929510" lat="48.1381294" lon="11.5715447" version="3" changeset="6909578" user="KLMB" uid="342705" visible="true" timestamp="2011-01-08T22:03:43Z"/>
+  <node id="18961430" lat="48.1379631" lon="11.5720752" version="3" changeset="6909578" user="KLMB" uid="342705" visible="true" timestamp="2011-01-08T22:04:00Z"/>
+  <node id="21280140" lat="48.1377849" lon="11.5726879" version="2" changeset="1460631" user="klausis" uid="85761" visible="true" timestamp="2009-06-08T17:52:33Z"/>
+  <node id="1119123633" lat="48.1377192" lon="11.572971" version="1" changeset="7076780" user="ToniE" uid="8748" visible="true" timestamp="2011-01-24T19:23:58Z"/>
+  <node id="18959566" lat="48.1376253" lon="11.5733896" version="6" changeset="7858804" user="geoMILLImeter" uid="205377" visible="true" timestamp="2011-04-14T08:51:11Z"/>
+  <node id="342243836" lat="48.137609" lon="11.5734676" version="5" changeset="9753339" user="Mloni" uid="367380" visible="true" timestamp="2011-11-06T09:23:59Z"/>
+  <node id="701009943" lat="48.1375008" lon="11.5739125" version="2" changeset="7076780" user="ToniE" uid="8748" visible="true" timestamp="2011-01-24T19:24:22Z"/>
+  <node id="18929515" lat="48.1374881" lon="11.5739675" version="3" changeset="1460631" user="klausis" uid="85761" visible="true" timestamp="2009-06-08T17:52:01Z"/>
+  <node id="1119123657" lat="48.1373376" lon="11.5746486" version="1" changeset="7076780" user="ToniE" uid="8748" visible="true" timestamp="2011-01-24T19:23:59Z"/>
+  <node id="539181087" lat="48.1373027" lon="11.5748495" version="2" changeset="8782797" user="Mloni" uid="367380" visible="true" timestamp="2011-07-20T20:33:49Z"/>
+  <node id="418873513" lat="48.1372728" lon="11.5749421" version="2" changeset="1520501" user="werner_ne" uid="122080" visible="true" timestamp="2009-06-14T23:51:42Z"/>
+  <way id="3810479" visible="true" timestamp="2011-06-20T12:27:18Z" version="13" changeset="8493875" user="MaNockenberg" uid="472138">
+    <nd ref="18929510"/>
+    <nd ref="18961430"/>
+    <nd ref="21280140"/>
+    <nd ref="1119123633"/>
+    <nd ref="18959566"/>
+    <nd ref="342243836"/>
+    <nd ref="701009943"/>
+    <nd ref="18929515"/>
+    <nd ref="1119123657"/>
+    <nd ref="539181087"/>
+    <nd ref="418873513"/>
+    <tag k="bicycle" v="no"/>
+    <tag k="cycleway" v="no"/>
+    <tag k="highway" v="pedestrian"/>
+    <tag k="level" v="0"/>
+    <tag k="name" v="Kaufingerstraße"/>
+  </way>
+</osm>

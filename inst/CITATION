@@ -1,0 +1,20 @@
+
+citEntry(entry="Article",
+	title="osmar: OpenStreetMap and R",
+	author=personList(as.person("Manuel J. A. Eugster"),
+		as.person("Thomas Schlesinger")),
+	journal="R Journal",
+	year="2010",
+	volume="",
+	pages="",
+	note = "Accepted for publication on 2012-08-14",
+	url="http://osmar.r-forge.r-project.org/RJpreprint.pdf",
+
+	header="To cite the osmar package use:",
+
+	textVersion=paste("Manuel J. A. Eugster and Thomas Schlesinger.",
+		"osmar: OpenStreetMap and R.",
+		"R Journal, 2012. Accepted for publication on 2012-08-14.",
+		"http://osmar.r-forge.r-project.org/RJpreprint.pdf")
+)
+

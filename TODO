@@ -1,0 +1,10 @@
+* write as_openmap.osmar()
+
+* include xlim,ylim in plot.osmar()
+
+* DONE summary functions
+  - error with osmar_elements without tags
+
+* DONE get_osm(..., full = TRUE)
+  - Add documentation for full = TRUE
+
