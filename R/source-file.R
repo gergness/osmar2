@@ -39,7 +39,7 @@ osmsource_file <- function(file) {
 
 
 get_osm_data.osmfile <- function(source, what, ...) {
-  readLines(source$file)
+  read_file(source$file)
 }
 
 

@@ -104,26 +104,24 @@ extract_attr.relation_parsed <- extract_attr.way_parsed
 
 ### Data: ############################################################
 
-extract_data <- function(x){
-  UseMethod("extract_data")
-}
-
-extract_data.osm_parsed <- function(parsed){
-  nodedata <- extract_data(parsed[[1]])
-  waydata <- extract_data(parsed[[2]])
-  relationdata <- extract_data(parsed[[3]])
+extract_data <- function(xroot){
+  nodedata <- extract_data_type(xroot, "node")
+  waydata <- extract_data_type(xroot, "way")
+  relationdata <- extract_data_type(xroot, "relation")
   list(nodedata=nodedata, waydata=waydata, relationdata=relationdata)
 }
 
-extract_data.node_parsed <- function(nparsed){
-  values<-nparsed$elements[which(sapply(nparsed$elements,xmlSize)!=0)]
+extract_data_type <- function(xroot, type){
+
+  values <- xml_find_all(xroot, sprintf("/osm/%s[./tag]", type))
+  
   ##auswahl der nodes MIT daten
   if(length(values)==0)
     return(data.frame(id=numeric(),
                       k=factor(),
                       v=factor()))
 
-  ret <- do.call("rbind", lapply(values, xml2long, "data"))
+  ret <- xml2long(values, "data")
 
   ret$id <- as.numeric(as.character(ret$id))
   ret$k <- as.factor(as.character(ret$k))
@@ -131,101 +129,6 @@ extract_data.node_parsed <- function(nparsed){
 
   ret
 }
-
-## extract_data.way_parsed <- function(wparsed){
-##   XMLclone<- lapply(wparsed$elements, xmlClone)
-##   XMLclone<- removeKids(XMLclone, "nd")
-##   XMLclone<- XMLclone[which(sapply(XMLclone, xmlSize)!=0)]
-##   if(length(XMLclone)==0)
-##     return(data.frame(id=numeric(),
-##                       k=factor(),
-##                       v=factor()))
-##
-##   ret <- do.call("rbind", lapply(XMLclone, xml2long, "data"))
-##
-##   ret$id <- as.numeric(as.character(ret$id))
-##   ret$k <- as.factor(as.character(ret$k))
-##   ret$v <- as.factor(as.character(ret$v))
-##
-##   ret
-## }
-## NOTE: A very strange xmlClone segfault on Linux and MacOS systems
-##       make the above version not usable. We were contacted by
-##       Roger Bivand who found that problem. We then contacted
-##       Duncan Temple Lang to discuss the problem, but he couldn't
-##       reproduce the problems on _any_ of his machines.
-extract_data.way_parsed <- function(wparsed){
-  clone <- lapply(wparsed$elements, xmlToList)
-  clone <- lapply(clone,
-                  function(x) {
-                    x[names(x) != "nd"]
-                  })
-  clone <- clone[sapply(clone, length) > 1]  # .attrs element
-
-  if ( length(clone) == 0 ) {
-    return(data.frame(id = numeric(),
-                      k = factor(),
-                      v = factor()))
-  }
-
-  ret2 <- lapply(clone, xml2long2)
-  ret2 <- do.call(rbind, ret2)
-
-  ret2$id <- as.numeric(ret2$id)
-  ret2$k <- as.factor(ret2$k)
-  ret2$v <- as.factor(ret2$v)
-
-  attr(ret2$k, "names") <- NULL
-  attr(ret2$v, "names") <- NULL
-
-  ret2
-}
-
-
-## extract_data.relation_parsed <- function(rparsed){
-##   XMLclone<- lapply(rparsed$elements, xmlClone)
-##   XMLclone<- removeKids(XMLclone, "member")
-##   XMLclone<- XMLclone[which(sapply(XMLclone,xmlSize)!=0)]
-##   if(length(XMLclone)==0)
-##     return(data.frame(id=numeric(),
-##                       k=factor(),
-##                       v=factor()))
-##
-##   ret <- do.call("rbind", lapply(XMLclone, xml2long, "data"))
-##
-##   ret$id <- as.numeric(as.character(ret$id))
-##   ret$k <- as.factor(as.character(ret$k))
-##   ret$v <- as.factor(as.character(ret$v))
-##
-##   ret
-## }
-extract_data.relation_parsed <- function(rparsed){
-  clone <- lapply(rparsed$elements, xmlToList)
-  clone <- lapply(clone,
-                  function(x) {
-                    x[names(x) != "member"]
-                  })
-  clone <- clone[sapply(clone, length) > 1]  # .attrs element
-
-  if ( length(clone) == 0 ) {
-    return(data.frame(id = numeric(),
-                      k = factor(),
-                      v = factor()))
-  }
-
-  ret2 <- lapply(clone, xml2long2)
-  ret2 <- do.call(rbind, ret2)
-
-  ret2$id <- as.numeric(ret2$id)
-  ret2$k <- as.factor(ret2$k)
-  ret2$v <- as.factor(ret2$v)
-
-  attr(ret2$k, "names") <- NULL
-  attr(ret2$v, "names") <- NULL
-
-  ret2
-}
-
 
 xml2long2 <- function(x) {
   attrs <- x$.attrs
@@ -243,20 +146,20 @@ xml2long2 <- function(x) {
 }
 
 
-xml2long <- function(x, dfType){
-  size<-xmlSize(x)
-  ret<-data.frame(id=character(size))
-  ret$id<-rep(xmlGetAttr(x, "id"), each=size)
-
-  if(dfType=="data")
-    colnames<-c("k", "v")
-  if(dfType=="member")
-    colnames<-names(xmlAttrs(xmlChildren(x)[[1]]))
-
-  ret[colnames]<-character(size)
-  for(i in 1:length(colnames))
-    ret[colnames[i]]<-xmlSApply(x, xmlGetAttr, colnames[i])
-  ret
+xml2long <- function(x, dfType) {
+  if (dfType != "data") stop(paste0("xml2long expected dfType = 'data', got '", dfType, "'"))
+  out <- data_frame(
+    id = xml_attr(x, "id"),
+    
+    dfs = lapply(x, function(parent_node) {
+      tag_nodes <- xml_find_all(parent_node, "./tag")
+      
+      data_frame(k = xml_attr(tag_nodes, "k"), 
+                       v = xml_attr(tag_nodes, "v"))
+    })
+  )
+  
+  unnest(out)
 }
 
 removeKids <- function(XML, kidsname){

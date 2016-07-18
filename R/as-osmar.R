@@ -13,8 +13,8 @@ subclass <- function(obj, subclass) {
 
 element_parse <- function(obj, element) {
   elem <- list()
-  elem$elements <- getNodeSet(obj, path = sprintf("//%s", element))
-  elem$IDs <- sapply(elem$elements, xmlGetAttr, "id")
+  elem$elements <- xml_find_all(obj, xpath = sprintf("//%s", element))
+  # elem$IDs <- xml_attr(elem$elements, "id") # Never used
 
   subclass(elem, sprintf("%s_parsed", element))
 }
@@ -22,9 +22,8 @@ element_parse <- function(obj, element) {
 
 
 osm_parse <- function(x) {
-  stopifnot(class(x) %in% c("XMLInternalElementNode",
-                            "XMLInternalNode",
-                            "XMLAbstractNode" ))
+  stopifnot(class(x) %in% c("xml_document",
+                            "xml_node" ))
 
   osm <- list()
   osm$nodes <- element_parse(x, "node")
@@ -106,10 +105,10 @@ are_osmar <- function(objs) {
 as_osmar <- function(xml) {
   #stopifnot(osm_check(xml))
 
-  osm_parsed <- osm_parse(xmlRoot(xml))
+  xml <- xml_root(xml) # not sure this is really necessary, but just in case for now
 
-  osm_data <- extract_data(osm_parsed)
-  osm_attr <- extract_attr(osm_parsed)
+  osm_data <- extract_data(xml)
+  osm_attr <- extract_attr(xml)
   osm_ref <- extract_ref(osm_parsed)
 
   osmar <- list()

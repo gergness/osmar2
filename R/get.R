@@ -36,12 +36,13 @@
 #' @import RCurl 
 #' @import XML
 #' @import methods
+#' @import xml2
 #' 
 #' @export
 get_osm <- function(x, source = osmsource_api(), ...) {
   raw <- get_osm_data(source, x, ...)
 
-  ret <- xmlParse(raw)
+  ret <- read_xml(raw)
   ret <- as_osmar(ret)
   #attr(ret, "identifier") <- x
   #attr(ret, "source") <- source
