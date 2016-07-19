@@ -56,37 +56,18 @@ extract_data <- function(xroot){
 }
 
 extract_data_type <- function(xroot, type){
-  values <- xml_find_all(xroot, sprintf("/osm/%s[./tag]", type))
+  ret <- osm_to_df(xroot, type, "tag", c(k = "k", v = "v"))
   
-  ##auswahl der nodes MIT daten
-  if(length(values)==0)
+  if(nrow(ret)==0)
     return(data.frame(id=numeric(),
                       k=factor(),
                       v=factor()))
-
-  ret <- xml2long(values, "data")
 
   ret$id <- as.numeric(as.character(ret$id))
   ret$k <- as.factor(as.character(ret$k))
   ret$v <- as.factor(as.character(ret$v))
 
   ret
-}
-
-xml2long <- function(x, dfType) {
-  if (dfType != "data") stop(paste0("xml2long expected dfType = 'data', got '", dfType, "'"))
-  out <- data_frame(
-    id = xml_attr(x, "id"),
-    
-    dfs = lapply(x, function(parent_node) {
-      tag_nodes <- xml_find_all(parent_node, "./tag")
-      
-      data_frame(k = xml_attr(tag_nodes, "k"), 
-                       v = xml_attr(tag_nodes, "v"))
-    })
-  )
-  
-  tidyr::unnest(out)
 }
 
 
@@ -99,21 +80,50 @@ extract_ref <- function(xroot){
 }
 
 extract_ref_type <- function(xroot, type) {
-  if (type == "way") ref_node <- "nd"
-  if (type == "relation") ref_node <- "member"
-  values <- xml_find_all(xroot, sprintf("/osm/%s[./%s]", type, ref_node))
+  if (type == "way") {
+    ref_node <- "nd"
+    vars <- c(ref = "ref") 
+  }
+  if (type == "relation") {
+    ref_node <- "member"
+    vars <- c(type = "type", ref = "ref", role = "role")
+  }
+ 
+  ret <- osm_to_df(xroot, type, ref_node, vars)
   
-  ##auswahl der nodes MIT daten
-  if(length(values)==0)
+  if(nrow(ret)==0)
     return(data.frame(id=numeric(),
                       k=factor(),
                       v=factor()))
   
-  ret <- xml2long(values, "data")
-  
   ret$id <- as.numeric(as.character(ret$id))
-  ret$k <- as.factor(as.character(ret$k))
-  ret$v <- as.factor(as.character(ret$v))
+  ret$ref <- as.numeric(as.character(ret$ref))
   
   ret
+}
+
+
+### Helpers: #########################################################
+
+osm_to_df <- function(xroot, elem, ref, vars) {
+  # It is wayyyy faster to go from the root every time, so this code
+  # seems a little indirect.
+  
+  # Get id from the parent node, repeat it once per node that the other vars
+  # are going to come from.
+  nodes <- xml_find_all(xroot, sprintf("/osm/%s[./%s]", elem, ref))
+  id <- xml_attr(nodes, "id")
+  lens <- xml_find_num(nodes, sprintf("count(./%s)", ref))
+  id <- rep(id, lens)
+  
+  # Other vars are from children
+  ex_vars <- lapply(vars, function(x) {
+    xml_text(xml_find_all(xroot, sprintf("/osm/%s/%s/@%s", elem, ref, x)))
+  })
+  
+  # Put them together
+  dplyr::bind_cols(
+    data_frame(id = id), 
+    ex_vars
+  )
 }
