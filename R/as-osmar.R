@@ -109,7 +109,7 @@ as_osmar <- function(xml) {
 
   osm_data <- extract_data(xml)
   osm_attr <- extract_attr(xml)
-  osm_ref <- extract_ref(osm_parsed)
+  osm_ref <- extract_ref(xml)
 
   osmar <- list()
 
