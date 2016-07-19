@@ -86,7 +86,7 @@ xml2long <- function(x, dfType) {
     })
   )
   
-  unnest(out)
+  tidyr::unnest(out)
 }
 
 

@@ -37,6 +37,8 @@
 #' @import XML
 #' @import methods
 #' @import xml2
+#' @import dplyr
+#' @import readr
 #' 
 #' @export
 get_osm <- function(x, source = osmsource_api(), ...) {
