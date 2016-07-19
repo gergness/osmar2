@@ -73,22 +73,6 @@ extract_data_type <- function(xroot, type){
   ret
 }
 
-xml2long2 <- function(x) {
-  attrs <- x$.attrs
-  x$.attrs <- NULL
-
-  x <- do.call(rbind, x)
-  rownames(x) <- NULL
-
-  ret <- as.data.frame(x, stringsAsFactors = FALSE)
-  ret$id <- unname(attrs["id"])
-
-  ret <- ret[c(ncol(ret), seq(length=ncol(ret)-1))]
-
-  ret
-}
-
-
 xml2long <- function(x, dfType) {
   if (dfType != "data") stop(paste0("xml2long expected dfType = 'data', got '", dfType, "'"))
   out <- data_frame(
@@ -103,11 +87,6 @@ xml2long <- function(x, dfType) {
   )
   
   unnest(out)
-}
-
-removeKids <- function(XML, kidsname){
-  ## Returns nodes without the specified children
-  lapply(XML, function(x) removeChildren(x, kids=which(names(x)==kidsname)))
 }
 
 

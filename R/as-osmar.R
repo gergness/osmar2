@@ -8,33 +8,6 @@ subclass <- function(obj, subclass) {
 }
 
 
-
-### OSM parsing: #####################################################
-
-element_parse <- function(obj, element) {
-  elem <- list()
-  elem$elements <- xml_find_all(obj, xpath = sprintf("//%s", element))
-  # elem$IDs <- xml_attr(elem$elements, "id") # Never used
-
-  subclass(elem, sprintf("%s_parsed", element))
-}
-
-
-
-osm_parse <- function(x) {
-  stopifnot(class(x) %in% c("xml_document",
-                            "xml_node" ))
-
-  osm <- list()
-  osm$nodes <- element_parse(x, "node")
-  osm$ways <- element_parse(x, "way")
-  osm$relations <- element_parse(x, "relation")
-
-  subclass(osm, "osm_parsed")
-}
-
-
-
 ### OSMAR object construction: #######################################
 
 NODES_CLASS <- "nodes"
