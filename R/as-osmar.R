@@ -45,7 +45,7 @@ OSMAR_CLASS <- "osmar"
 
 
 osmar_elemclass <- function(obj, subclass) {
-  stopifnot(all(sapply(obj, class) == "data.frame"))
+  stopifnot(all(sapply(obj, inherits, "data.frame")))
   subclass(obj, c(subclass, "osmar_element"))
 }
 
