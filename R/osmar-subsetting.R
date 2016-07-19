@@ -78,7 +78,7 @@ subset_relations <- function(x, ids) {
 #'   elements
 #'
 #' @examples
-#'   data("muc", package = "osmar")
+#'   data("muc", package = "osmar2")
 #'   id <- find(muc, node(tags(v == "Marienplatz")))
 #'
 #'   subset(muc, node_ids = id)

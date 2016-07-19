@@ -70,9 +70,9 @@ are_osmar <- function(objs) {
 #' @aliases osmar
 #'
 #' @examples
-#'   file <- system.file("extdata", "kaufstr.xml", package = "osmar")
-#'   raw <- readLines(file)
-#'   kaufstr <- as_osmar(xmlParse(raw))
+#'   file <- system.file("extdata", "kaufstr.xml", package = "osmar2")
+#'   raw <- readr::read_file(file)
+#'   kaufstr <- as_osmar(read_xml(raw))
 #'
 #' @export
 as_osmar <- function(xml) {

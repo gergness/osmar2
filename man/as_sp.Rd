@@ -52,7 +52,7 @@ Depending on the strings given in \code{what} the
  in there.
 }
 \examples{
-  data("muc", package = "osmar")
+  data("muc", package = "osmar2")
   muc_points <- as_sp(muc, "points")
   muc_lines <- as_sp(muc, "lines")
   muc_polygons <- as_sp(muc, "polygons")

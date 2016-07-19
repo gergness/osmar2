@@ -34,7 +34,6 @@
 #'   \code{\link{osmsource_api}}, \code{\link{osmsource_osmosis}}
 #'
 #' @import RCurl 
-#' @import XML
 #' @import methods
 #' @import xml2
 #' @import dplyr

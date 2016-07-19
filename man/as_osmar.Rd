@@ -32,9 +32,9 @@ Convert a given OSM-XML object (as parsed by
 \code{\link[XML]{xmlParse}}) to an osmar object.
 }
 \examples{
-  file <- system.file("extdata", "kaufstr.xml", package = "osmar")
-  raw <- readLines(file)
-  kaufstr <- as_osmar(xmlParse(raw))
+  file <- system.file("extdata", "kaufstr.xml", package = "osmar2")
+  raw <- readr::read_file(file)
+  kaufstr <- as_osmar(read_xml(raw))
 
 }
 

@@ -45,7 +45,7 @@
 #'   A list of one or more \link[sp]{sp} objects; see Details section.
 #'
 #' @examples
-#'   data("muc", package = "osmar")
+#'   data("muc", package = "osmar2")
 #'   muc_points <- as_sp(muc, "points")
 #'   muc_lines <- as_sp(muc, "lines")
 #'   muc_polygons <- as_sp(muc, "polygons")

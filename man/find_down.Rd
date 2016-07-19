@@ -48,7 +48,7 @@ For a given ID these functions return all IDs of related elements.
   }
 }
 \examples{
-  data("muc", package = "osmar")
+  data("muc", package = "osmar2")
   o1 <- find(muc, way(tags(k == "highway" & v == "pedestrian")))
 
   find_down(muc, way(o1))

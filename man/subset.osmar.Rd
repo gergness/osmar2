@@ -31,7 +31,7 @@ An \code{\link{osmar}} object containing the specified
 Subset an osmar object
 }
 \examples{
-  data("muc", package = "osmar")
+  data("muc", package = "osmar2")
   id <- find(muc, node(tags(v == "Marienplatz")))
 
   subset(muc, node_ids = id)

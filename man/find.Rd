@@ -29,7 +29,7 @@ The basis of an \code{\link{osmar}} object are
   \code{element(data(condition))}, see \code{\link{osm_descriptors}}.
 }
 \examples{
-  data("muc", package = "osmar")
+  data("muc", package = "osmar2")
   find(muc, node(tags(v == "Marienplatz")))
   find(muc, node(tags(v \%agrep\% "marienplatz")))
   find(muc, node(attrs(id == 19475890)))

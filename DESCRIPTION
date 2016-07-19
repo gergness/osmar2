@@ -13,13 +13,11 @@ Description: This package provides infrastructure to access
     igraph objects).
 Depends:
     methods,
-    XML,
     xml2,
     RCurl,
     geosphere, 
     readr,
-    dplyr,
-    tidyr
+    dplyr
 Suggests:
     igraph,
     sp (>= 0.9-93)

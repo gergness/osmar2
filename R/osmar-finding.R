@@ -17,7 +17,7 @@
 #'   \code{element(data(condition))}, see \code{\link{osm_descriptors}}.
 #'
 #' @examples
-#'   data("muc", package = "osmar")
+#'   data("muc", package = "osmar2")
 #'   find(muc, node(tags(v == "Marienplatz")))
 #'   find(muc, node(tags(v %agrep% "marienplatz")))
 #'   find(muc, node(attrs(id == 19475890)))
@@ -158,7 +158,7 @@ find_relation.relations <- function(object, condition) {
 #'   \code{way_ids}, \code{relation_ids}
 #'
 #' @examples
-#'   data("muc", package = "osmar")
+#'   data("muc", package = "osmar2")
 #'   o1 <- find(muc, way(tags(k == "highway" & v == "pedestrian")))
 #'
 #'   find_down(muc, way(o1))
@@ -281,7 +281,7 @@ find_up_relation <- function(object, ids = NULL) {
 #' @return A node ID or \code{NA}
 #'
 #' @examples
-#'   data("muc", package = "osmar")
+#'   data("muc", package = "osmar2")
 #'   id <- find(muc, node(tags(v == "Marienplatz")))[1]
 #'
 #'   find_nearest_node(muc, id, way(tags(k == "highway" & v == "pedestrian")))

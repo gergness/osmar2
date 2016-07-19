@@ -22,7 +22,7 @@ For a given ID, find nearest node (geographical distance) with
 given conditions.
 }
 \examples{
-  data("muc", package = "osmar")
+  data("muc", package = "osmar2")
   id <- find(muc, node(tags(v == "Marienplatz")))[1]
 
   find_nearest_node(muc, id, way(tags(k == "highway" & v == "pedestrian")))
