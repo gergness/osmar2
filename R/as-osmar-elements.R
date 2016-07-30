@@ -15,7 +15,7 @@ extract_attr_type <- function(xroot, type){
 
   # To add on the missing columns
   empty <- data_frame(id = numeric(),
-                      visible = character(),
+                      visible = factor(),
                       timestamp = character(),  # How to create a POSIXlt(0)?
                       version = numeric(),
                       changeset = numeric(),
@@ -26,7 +26,8 @@ extract_attr_type <- function(xroot, type){
   
   ret <- do.call(rbind, xml_attrs(xnodes))
   ret <- bind_rows(as_data_frame(ret), empty)
-
+  
+  ret$visible <- as.factor(as.character(ret$visible))
   ret$timestamp <- as.POSIXct(strptime(ret$timestamp, format="%Y-%m-%dT%H:%M:%S"))
   ret$lat<- as.numeric(as.character(ret$lat))
   ret$lon<- as.numeric(as.character(ret$lon))
@@ -37,12 +38,13 @@ extract_attr_type <- function(xroot, type){
   ret$changeset<- as.numeric(as.character(ret$changeset))
 
   # lat and lon are only in nodes
-  if (type != "node") {
-    ret$lat <- NULL
-    ret$lon <- NULL
+  if (type %in% c("way", "relation")) {
+    ret <- ret[, c("id", "visible", "timestamp", "version", "changeset", "user", "uid")]
+  } else if (type == "node") {
+    ret <- ret[, c("id", "visible", "timestamp", "version", "changeset", "user", "uid", "lat", "lon")]
   }
   
-  ret
+  data.frame(ret)
 }
 
 
@@ -67,7 +69,7 @@ extract_data_type <- function(xroot, type){
   ret$k <- as.factor(as.character(ret$k))
   ret$v <- as.factor(as.character(ret$v))
 
-  ret
+  data.frame(ret[, c("id", "k", "v")])
 }
 
 
@@ -99,7 +101,15 @@ extract_ref_type <- function(xroot, type) {
   ret$id <- as.numeric(as.character(ret$id))
   ret$ref <- as.numeric(as.character(ret$ref))
   
-  ret
+  if (type == "way") {
+    ret <- ret[, c("id", "ref")]
+  } else if (type == "relation") {
+    ret$type <- as.factor(ret$type)
+    ret$role <- as.factor(ret$role)
+    
+    ret <- ret[, c("id", "type", "ref", "role")]
+  }
+  data.frame(ret)
 }
 
 
